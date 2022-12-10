@@ -56,26 +56,8 @@ export const moveTail = (head: Point, tail: Point): Point => {
       y += tail.y > head.y ? -1 : 1;
     }
   } else {
-    // ↖
-    if (head.x < tail.x && head.y > tail.y) {
-      x--;
-      y++;
-    }
-    // ↗
-    else if (head.x > tail.x && head.y > tail.y) {
-      x++;
-      y++;
-    }
-    // ↘
-    else if (head.x > tail.x && head.y < tail.y) {
-      x++;
-      y--;
-    }
-    // ↙
-    else if (head.x < tail.x && head.y < tail.y) {
-      x--;
-      y--;
-    }
+    x += head.x < tail.x ? -1 : 1;
+    y += head.y < tail.y ? -1 : 1;
   }
 
   return { x, y }
