@@ -23,4 +23,9 @@ const dir = `./${year}/day/${day}`;
 
 process.env.FILE_PATH = dir;
 // execute
+
+const start = performance.now();
+console.log(`[INFO] Executing ${dir}/${partFile}`);
 await import(`${dir}/${partFile}`);
+const end = performance.now();
+console.info(`[INFO] Execution took ${(end - start).toFixed(2)}ms`);
