@@ -1,13 +1,10 @@
-import * as path from "https://deno.land/std/path/mod.ts";
-import getLines from "../../../helpers/getLines.ts";
+import getLines from "../../../helpers/readFile";
 
+const t0 = performance.now();
 const REGEX = /(?=(\d|one|two|three|four|five|six|seven|eight|nine))/g;
 const NUMBER_REGEX = /\d/;
-const INPUT_FILE = "./input.txt";
-const lines = await getLines(
-  path.dirname(path.fromFileUrl(import.meta.url)),
-  INPUT_FILE
-);
+
+const lines = await getLines();
 
 let sum = 0;
 for await (const line of lines) {
@@ -39,6 +36,10 @@ for await (const line of lines) {
 }
 
 console.log(sum);
+
+const t1 = performance.now();
+
+console.log(t1 - t0);
 
 function isDigit(str: string | null): boolean {
   if (!str) {
