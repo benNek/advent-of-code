@@ -67,37 +67,84 @@ for (const line of lines) {
   currentNode.ranges.push({ source, destination, range });
 }
 
-// Fun part
-let lowest = 99999999999;
-console.log(lowest);
-for (let i = 0; i < seeds.length; i += 2) {
-  console.log(i);
-  const from = seeds[i];
-  const to = from + seeds[i + 1];
-  for (let j = from; j < to; j++) {
-    let value = j;
+// sort all ranges bcuz it makes out life easier
+let node = root;
+while (node) {
+  node.ranges = node.ranges.sort((a, b) => a.source - b.source);
 
-    let node = root;
-    while (node) {
-      value = transform(value, node.ranges);
-
-      if (!node.to) {
-        lowest = Math.min(lowest, value);
-      }
-      node = node.to;
-    }
-  }
+  node = node.to;
 }
 
-console.log(lowest);
+// Fun part
+// get the split points of ranges and create new ones possibly
+type LiteRange = {
+  from: number;
+  to: number;
+};
 
-function transform(value: number, ranges: Range[]): number {
-  for (let range of ranges) {
-    if (range.source <= value && value < range.source + range.range) {
-      return range.destination + (value - range.source);
+let ranges: LiteRange[] = [];
+for (let i = 0; i < seeds.length; i += 2) {
+  const from = seeds[i];
+  const to = from + seeds[i + 1] - 1;
+
+  ranges.push({ from, to });
+}
+
+node = root;
+while (node) {
+  let newRanges: LiteRange[] = [];
+
+  // branch out all current ones into smaller or same ones
+  for (const sourceRange of ranges) {
+    const { from: sourceFrom, to: sourceTo } = sourceRange;
+
+    let currentFrom = sourceFrom;
+
+    for (const targetRange of node.ranges) {
+      const targetFrom = targetRange.source;
+      const targetTo = targetFrom + targetRange.range - 1;
+      if (!isIntersecting(currentFrom, sourceTo, targetFrom, targetTo)) {
+        continue;
+      }
+
+      // there was a leftover we need to add
+      if (targetFrom > currentFrom) {
+        newRanges.push({
+          from: currentFrom,
+          to: targetFrom - 1,
+        });
+        currentFrom = targetFrom;
+      }
+
+      const newFrom = Math.max(currentFrom, targetFrom);
+      const newTo = Math.min(sourceTo, targetTo);
+
+      currentFrom = newTo + 1;
+      newRanges.push({
+        from: targetRange.destination + (newFrom - targetFrom),
+        to: targetRange.destination + (newTo - targetFrom),
+      });
+    }
+
+    if (currentFrom < sourceTo) {
+      newRanges.push({
+        from: currentFrom,
+        to: sourceTo,
+      });
     }
   }
 
-  // if nothing has been found, return the original value
-  return value;
+  ranges = newRanges;
+  node = node.to;
+}
+
+console.log(Math.min(...ranges.map((x) => x.from)));
+
+function isIntersecting(
+  xStart: number,
+  xEnd: number,
+  yStart: number,
+  yEnd: number
+) {
+  return xEnd >= yStart && yEnd >= xStart;
 }
