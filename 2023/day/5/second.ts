@@ -107,7 +107,12 @@ while (node) {
         continue;
       }
 
-      // there was a leftover we need to add
+      // scenario:
+      // sx----------sy
+      //      tx-----ty
+      //
+      // we need to save the prefix
+      console.log("test");
       if (targetFrom > currentFrom) {
         newRanges.push({
           from: currentFrom,
@@ -126,6 +131,13 @@ while (node) {
       });
     }
 
+    // after going through every target, we might still have leftovers
+    // e.g. the last target could look like:
+    //        sx-------sy
+    // tx--------ty
+    //
+    // then we are missing last part
+    //            ty----sy
     if (currentFrom < sourceTo) {
       newRanges.push({
         from: currentFrom,
