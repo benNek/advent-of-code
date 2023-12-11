@@ -53,15 +53,9 @@ const nodesMap: Record<string, Node> = {};
 
 // generate the graph from input
 for (let y = 0; y < map.length; y++) {
-  for (let x = 0; x < map.length; x++) {
+  for (let x = 0; x < map[y].length; x++) {
     if (map[y][x] === SYMBOLS.START) {
-      startNode = {
-        name: `${x}-${y}`,
-        x,
-        y,
-        neighbors: [],
-        distance: 0,
-      };
+      startNode = getOrCreateNode(getNodeName(x, y), x, y);
     }
   }
 }
