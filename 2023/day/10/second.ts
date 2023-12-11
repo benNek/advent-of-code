@@ -74,7 +74,7 @@ for (let y = 0; y < map.length; y++) {
         isInside = !isInside;
       }
     } else if (isInside) {
-      str += "▓";
+      str += "\x1b[31m▓\x1b[0m";
       tiles++;
     } else {
       str += ASCII_MAPPING[map[y][x]];
