@@ -1,4 +1,5 @@
 import getLines from "../../../helpers/readFile.ts";
+import {generateOperatorsChoices, tryOperators} from "./helper.ts";
 
 const lines = await getLines();
 
@@ -7,26 +8,9 @@ for (const line of lines) {
     const target = parseInt(line.split(':')[0], 10);
     const nums = line.split(':')[1].split(' ').filter(x => !!x).map(x => parseInt(x, 10));
 
-    let combos: string[][] = [];
-    generateOperators(nums.length - 1, [], combos);
-
-
+    const combos = generateOperatorsChoices(nums.length - 1, ["+", "*", "||"]);
     for (const combo of combos) {
-        let result = nums[0];
-
-        let item = 1;
-        for (const operation of combo) {
-            if (operation === '*') {
-                result *= nums[item]
-            } else if (operation === '+') {
-                result += nums[item]
-            } else {
-                result = parseInt(result.toString() + nums[item].toString());
-            }
-            item++;
-        }
-
-        if (result === target) {
+        if (tryOperators(target, nums, combo)) {
             sum += target;
             break;
         }
@@ -34,14 +18,3 @@ for (const line of lines) {
 }
 
 console.log(sum);
-
-function generateOperators(length: number, operators: string[], result: string[][]) {
-    if (length === 0) {
-        result.push(operators);
-        return;
-    }
-
-    generateOperators(length - 1, [...operators, "+"], result)
-    generateOperators(length - 1, [...operators, "*"], result)
-    generateOperators(length - 1, [...operators, "||"], result)
-}
