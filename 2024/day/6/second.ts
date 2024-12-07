@@ -4,6 +4,7 @@ import {canMove, isOutOfMap, move, rotate} from "./helper.ts";
 
 const START_CHAR = '^';
 const OBSTACLE_CHAR = "#";
+const VISITED_CHAR = "X";
 
 const lines = await getLines();
 
@@ -20,10 +21,18 @@ for (let row = 0; row < lines.length; row++) {
     }
 }
 
+const visitedMap = getInitialWalkMap(lines.map(x => x.split('')), startRow, startCol);
+
 let loops = 0;
 for (let row = 0; row < lines.length; row++) {
     for (let col = 0; col < lines[row].length; col++) {
         if (lines[row][col] === START_CHAR) {
+            continue;
+        }
+
+        // micro optimization, only try placing the square in the initial (problem 1) path
+        // drops from 9s to 2s.
+        if (visitedMap[row][col] !== VISITED_CHAR) {
             continue;
         }
 
@@ -38,6 +47,26 @@ for (let row = 0; row < lines.length; row++) {
 
 console.log("There are total of " + loops + " loops.");
 
+function getInitialWalkMap(map: string[][], row: number, col: number) {
+    let direction = Direction.UP;
+    while (true) {
+        if (isOutOfMap(map, row, col)) {
+            break;
+        }
+        map[row][col] = VISITED_CHAR;
+
+        if (!canMove(map, row, col, direction)) {
+            direction = rotate(direction);
+            continue;
+        }
+
+        let coords = move(row, col, direction);
+        row = coords[0];
+        col = coords[1];
+    }
+
+    return map;
+}
 
 function isALoop(map: string[][], startRow: number, startCol: number): boolean {
     let cache = new Map<string, boolean>();
