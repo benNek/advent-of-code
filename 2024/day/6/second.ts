@@ -52,6 +52,7 @@ function isALoop(map: string[][], startRow: number, startCol: number): boolean {
 
         if (!canMove(map, row, col, direction)) {
             direction = rotate(direction);
+            // this was the initial culprit. After rotating, i just moved instead of checking for another possibility
             continue;
         }
 
