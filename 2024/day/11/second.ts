@@ -25,7 +25,6 @@ function processTurn(stones: Dict): void {
         const count = copy[stone];
         if (count === 0) {
             continue;
-        } else {
         }
 
         const numValue = parseInt(stone, 10);
