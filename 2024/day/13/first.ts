@@ -35,6 +35,7 @@ for (let i = 0; i < lines.length; i += 4) {
 }
 console.log("Total price is ", price);
 
+// fun time solving systems after so many years in a notebook
 function solve(ax: number, ay: number, bx: number, by: number, tx: number, ty: number): [number, number] {
     const clicksB = (ax * ty - ay * tx) / (ax * by - bx * ay);
     const clicksA = (tx - bx * clicksB) / ax;
