@@ -4,19 +4,17 @@ type Dict = Record<string, number>;
 const lines = await getLines();
 const input = lines[0].split(" ").map(x => parseInt(x, 10));
 
-const MAX_TURNS = 75;
+const MAX_TURNS = 7500;
 const stones: Dict = {};
 for (const stone of input) {
     stones[stone] = 1;
 }
 for (let i = 0; i < MAX_TURNS; i++) {
     processTurn(stones)
+    console.log("Turn", i + 1, Object.keys(stones).length);
 }
 
 let totalStones = 0;
-for (const stone in stones) {
-    totalStones += stones[stone];
-}
 console.log("Total stones:", totalStones);
 
 function processTurn(stones: Dict): void {
