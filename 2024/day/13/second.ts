@@ -1,5 +1,7 @@
 import getLines from "../../../helpers/readFile.ts";
 
+const OFFSET = 10000000000000;
+
 const INSTRUCTION_REGEX = /Button (.+): X\+(\d+), Y\+(\d+)/;
 const TARGET_REGEX = /Prize: X=(\d+), Y=(\d+)/;
 
@@ -16,17 +18,12 @@ for (let i = 0; i < lines.length; i += 4) {
     const by = parseInt(b?.[3]!);
 
     const target = lines[i + 2].match(TARGET_REGEX);
-    const tx = parseInt(target?.[1]!);
-    const ty = parseInt(target?.[2]!);
+    const tx = parseInt(target?.[1]!) + OFFSET;
+    const ty = parseInt(target?.[2]!) + OFFSET;
 
     const [aClicks, bClicks] = solve(ax, ay, bx, by, tx, ty);
 
     if (aClicks === -1 || bClicks === -1) {
-        continue;
-    }
-
-    if (aClicks > 100 || bClicks > 100) {
-        console.log('exceeded 100 clicks')
         continue;
     }
 
