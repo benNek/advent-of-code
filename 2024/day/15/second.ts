@@ -1,6 +1,7 @@
 import getLines from "../../../helpers/readFile.ts";
-import {DIRECTION_TO_MOVEMENT, printMap} from "../../../helpers/maps.ts";
+import {DIRECTION_TO_MOVEMENT, getHashKey, printMap} from "../../../helpers/maps.ts";
 import {isVisualMode} from "../../../helpers/execution.ts";
+import colors, {blue} from "colors";
 
 const WALL_SYMBOL = "#";
 const BOX_SYMBOL = "O";
@@ -9,10 +10,16 @@ const BOX_END_SYMBOL = "]";
 const EMPTY_SYMBOL = ".";
 const ROBOT_SYMBOL = "@";
 
+const symbolColorMap: Record<string, colors.Color> = {
+    [WALL_SYMBOL]: colors.grey,
+    [ROBOT_SYMBOL]: colors.blue,
+    [BOX_START_SYMBOL]: colors.yellow,
+    [BOX_END_SYMBOL]: colors.yellow,
+}
+
 const lines = await getLines();
 
 type Box = {
-    id: string;
     y: number;
     leftX: number;
     rightX: number;
@@ -54,11 +61,12 @@ for (const direction of instructions) {
 
     if (isVisualMode()) {
         console.clear();
-        printMap(map);
+        console.log(`pos={${colors.blue(robotX.toString())},${colors.blue(robotY.toString())}}, dir={${colors.blue(direction)}}\n`);
+        printMap(map, symbolColorMap);
         prompt("Press enter to continue");
     }
 }
-printMap(map);
+printMap(map, symbolColorMap);
 
 let score = 0;
 for (let y = 0; y < map.length; y++) {
@@ -77,11 +85,7 @@ function move(x: number, y: number, movement: number[]): [number, number] {
 
     // need to update this logic to find all boxes that would be pushed and check them individually
     // since boxes are in width and not height, we can only push spreading out boxes when moving up or down
-    let boxes: Box[] = [];
-    findImpactedBoxes(x + movement[0], y + movement[1], movement, boxes);
-    boxes =  [...new Map(boxes.map(box =>
-        [box.id, box])).values()];
-
+    const boxes: Box[] = findImpactedBoxes(x + movement[0], y + movement[1], movement);
     if (!boxes.every(box => canPushBox(box, movement))) {
         return [x, y];
     }
@@ -94,7 +98,7 @@ function move(x: number, y: number, movement: number[]): [number, number] {
         const newY = box.y + movement[1];
         const newLeftX = box.leftX + movement[0];
         const newRightX = box.rightX + movement[0];
-        newBoxes.push({id: createBoxId(newY, newLeftX, newRightX), y: newY, leftX: newLeftX, rightX: newRightX});
+        newBoxes.push({y: newY, leftX: newLeftX, rightX: newRightX});
     }
 
     for (const box of newBoxes) {
@@ -107,29 +111,38 @@ function move(x: number, y: number, movement: number[]): [number, number] {
     return [x + movement[0], y + movement[1]];
 }
 
-function findImpactedBoxes(x: number, y: number, movement: number[], boxes: Box[] = []) {
-    const isVerticalMovement = movement[1] !== 0;
+function findImpactedBoxes(startingX: number, startingY: number, movement: number[]): Box[] {
+    const boxes: Box[] = [];
+    // use bfs instead
+    const queue: [number, number][] = [[startingX, startingY]];
+    const visited = new Set<string>();
 
-    let box: Box | undefined;
-    if (map[y][x] === BOX_START_SYMBOL) {
-        box = {id: createBoxId(y, x, x + 1), y, leftX: x, rightX: x + 1};
-    } else if (map[y][x] === BOX_END_SYMBOL) {
-        box = {id: createBoxId(y, x - 1, x), y, leftX: x - 1, rightX: x};
-    } else {
-        return;
-    }
+    while (queue.length > 0) {
+        const [x, y] = queue.shift()!;
 
-    if (!box) {
-        return;
-    }
+        const key = getHashKey(x, y);
+        if (visited.has(key)) {
+            continue;
+        }
+        visited.add(key);
 
-    boxes.push(box);
-    if (isVerticalMovement) {
-        findImpactedBoxes(box.leftX + movement[0], box.y + movement[1], movement, boxes);
-        findImpactedBoxes(box.rightX + movement[0], box.y + movement[1], movement, boxes);
-    } else {
-        findImpactedBoxes(x + movement[0], y + movement[1], movement, boxes);
+        const symbol = map[y][x];
+        let box: Box | undefined;
+        if (symbol === BOX_START_SYMBOL) {
+            box = {y: y, leftX: x, rightX: x + 1};
+            queue.push([x + movement[0], y + movement[1]]);
+            queue.push([x + movement[0] + 1, y + movement[1]]);
+        } else if (symbol === BOX_END_SYMBOL) {
+            box = {y: y, leftX: x - 1, rightX: x};
+            queue.push([x + movement[0] - 1, y + movement[1]]);
+            queue.push([x + movement[0], y + movement[1]]);
+        }
+
+        if (box) {
+            boxes.push(box);
+        }
     }
+    return boxes;
 }
 
 function canPushBox(box: Box, movement: number[]): boolean {
@@ -142,8 +155,4 @@ function canPushBox(box: Box, movement: number[]): boolean {
     }
 
     return true;
-}
-
-function createBoxId(y: number, leftX: number, rightX: number): string {
-    return `${y};${leftX}-${rightX}`;
 }

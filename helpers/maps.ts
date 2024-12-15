@@ -1,3 +1,5 @@
+import colors from "colors";
+
 export function getHashKey(row: number, col: number) {
     return `${row}-${col}`;
 }
@@ -21,11 +23,16 @@ export type Point = {
     y: number;
 };
 
-export function printMap(map: string[][]) {
+export function printMap(map: string[][], symbolToColorMap: Record<string, colors.Color> = {}) {
     for (let y = 0; y < map.length; y++) {
         let line = "";
         for (let x = 0; x < map[y].length; x++) {
-            line += map[y][x];
+            const symbol = map[y][x];
+            if (symbolToColorMap[symbol]) {
+                line += symbolToColorMap[symbol](symbol);
+            } else {
+                line += symbol;
+            }
         }
         console.log(line);
     }

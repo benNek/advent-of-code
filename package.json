@@ -9,6 +9,7 @@
   },
   "type": "module",
   "dependencies": {
+    "colors": "^1.4.0",
     "commander": "^11.1.0",
     "pngjs": "^7.0.0"
   }
