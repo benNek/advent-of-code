@@ -1,9 +1,9 @@
 import * as path from "https://deno.land/std/path/mod.ts";
-import getLines from "../../../helpers/getLines.ts";
+import getLinesDeprecated from "../../../helpers/getLinesDeprecated.ts";
 
 const MIN_DISTANCE_TO_MOVE_TAIL = 1.5;
 
-const lines = await getLines(path.dirname(path.fromFileUrl(import.meta.url)), "./input.txt");
+const lines = await getLinesDeprecated(path.dirname(path.fromFileUrl(import.meta.url)), "./input.txt");
 
 let headX = 0;
 let headY = 0;

@@ -1,11 +1,11 @@
 import * as path from "https://deno.land/std/path/mod.ts";
-import getLines from "../../../helpers/getLines.ts";
+import getLinesDeprecated from "../../../helpers/getLinesDeprecated.ts";
 import { Monkey, parseMonkeys } from "./monkeyHelper.ts";
 
 const ROUNDS_TO_PLAY = 10000;
 const MOST_ACTIVE_MONKEYS_COUNT = 2;
 
-const lines = await getLines(path.dirname(path.fromFileUrl(import.meta.url)), "./input.txt");
+const lines = await getLinesDeprecated(path.dirname(path.fromFileUrl(import.meta.url)), "./input.txt");
 
 const monkeys: Monkey[] = await parseMonkeys(lines);
 const monkeysCount = Object.keys(monkeys).length;

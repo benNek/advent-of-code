@@ -1,5 +1,5 @@
 import * as path from "https://deno.land/std/path/mod.ts";
-import getLines from "../../../helpers/getLines.ts";
+import getLinesDeprecated from "../../../helpers/getLinesDeprecated.ts";
 import { Folder, calculateAllDirectoriesSize, traverse } from "./fileSystemHelper.ts";
 
 const FILE_SYSTEM_SIZE = 70_000_000;
@@ -9,7 +9,7 @@ const TRAVERSE_REGEX = /\$ cd (.+)/;
 const FILE_REGEX = /(\d+) (.+)/;
 
 const INPUT_FILE = "./input.txt";
-const lines = await getLines(path.dirname(path.fromFileUrl(import.meta.url)), INPUT_FILE);
+const lines = await getLinesDeprecated(path.dirname(path.fromFileUrl(import.meta.url)), INPUT_FILE);
 
 let root: Folder | null = null;
 

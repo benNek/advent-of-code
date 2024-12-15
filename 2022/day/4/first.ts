@@ -1,8 +1,8 @@
 import * as path from "https://deno.land/std/path/mod.ts";
-import getLines from "../../../helpers/getLines.ts";
+import getLinesDeprecated from "../../../helpers/getLinesDeprecated.ts";
 
 const INPUT_FILE = "./input.txt";
-const lines = await getLines(path.dirname(path.fromFileUrl(import.meta.url)), INPUT_FILE);
+const lines = await getLinesDeprecated(path.dirname(path.fromFileUrl(import.meta.url)), INPUT_FILE);
 
 let totallyContained = 0;
 for await (const line of lines) {

@@ -1,12 +1,12 @@
 import * as path from "https://deno.land/std/path/mod.ts";
-import getLines from "../../../helpers/getLines.ts";
+import getLinesDeprecated from "../../../helpers/getLinesDeprecated.ts";
 
 const OPERATION_DELAY = 2;
 
 const START_INTERVAL = 20;
 const INTERVAL = 40;
 
-const lines = await getLines(path.dirname(path.fromFileUrl(import.meta.url)), "./input.txt");
+const lines = await getLinesDeprecated(path.dirname(path.fromFileUrl(import.meta.url)), "./input.txt");
 
 const print = () => {
   console.log(`#${cycleNo} => ${register}`)

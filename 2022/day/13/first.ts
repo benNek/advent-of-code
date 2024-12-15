@@ -1,7 +1,7 @@
 import * as path from "https://deno.land/std/path/mod.ts";
-import getLines from "../../../helpers/getLines.ts";
+import getLinesDeprecated from "../../../helpers/getLinesDeprecated.ts";
 
-const lines = await getLines(path.dirname(path.fromFileUrl(import.meta.url)), "./input.txt");
+const lines = await getLinesDeprecated(path.dirname(path.fromFileUrl(import.meta.url)), "./input.txt");
 
 const isInRightOrder = (first, second) => {
   return compare(first, second) > 0;

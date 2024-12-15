@@ -1,10 +1,10 @@
 import * as path from "https://deno.land/std/path/mod.ts";
-import getLines from "../../../helpers/getLines.ts";
+import getLinesDeprecated from "../../../helpers/getLinesDeprecated.ts";
 
 const SYMBOLS_PER_STACK = 4;
 
 const INPUT_FILE = "./input.txt";
-const lines = await getLines(path.dirname(path.fromFileUrl(import.meta.url)), INPUT_FILE);
+const lines = await getLinesDeprecated(path.dirname(path.fromFileUrl(import.meta.url)), INPUT_FILE);
 
 const stacks = {};
 

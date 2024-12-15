@@ -1,11 +1,11 @@
 import * as path from "https://deno.land/std/path/mod.ts";
-import getLines from "../../../helpers/getLines.ts";
+import getLinesDeprecated from "../../../helpers/getLinesDeprecated.ts";
 import { calculateDistance, createKey, Direction, moveHead, moveTail, Point, printMap } from "./ropeHelper.ts";
 
 const MIN_DISTANCE_TO_MOVE_TAIL = 1.5;
 const KNOTS_COUNT = 10;
 
-const lines = await getLines(path.dirname(path.fromFileUrl(import.meta.url)), "./input.txt");
+const lines = await getLinesDeprecated(path.dirname(path.fromFileUrl(import.meta.url)), "./input.txt");
 
 const positions: Point[] = [];
 for (let i = 0; i < KNOTS_COUNT; i++) {

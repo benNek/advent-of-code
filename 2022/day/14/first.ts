@@ -1,5 +1,5 @@
 import * as path from "https://deno.land/std/path/mod.ts";
-import getLines from "../../../helpers/getLines.ts";
+import getLinesDeprecated from "../../../helpers/getLinesDeprecated.ts";
 
 enum FillType {
   EMPTY = '.',
@@ -77,7 +77,7 @@ let maxPoint: Point = {
   y: -1,
 };
 const paths: Point[][] = [];
-const lines = await getLines(path.dirname(path.fromFileUrl(import.meta.url)), "./input.txt");
+const lines = await getLinesDeprecated(path.dirname(path.fromFileUrl(import.meta.url)), "./input.txt");
 for await (const line of lines) {
   const linePaths: Point[] = line.split(' -> ').map(point => ({
     x: parseInt(point.split(',')[0]),

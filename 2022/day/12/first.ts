@@ -1,10 +1,10 @@
 import * as path from "https://deno.land/std/path/mod.ts";
-import getLines from "../../../helpers/getLines.ts";
+import getLinesDeprecated from "../../../helpers/getLinesDeprecated.ts";
 
 const START_SYMBOL = 'S';
 const FINAL_SYMBOL = 'E';
 const INPUT_FILE = "./input.txt";
-const lines = await getLines(path.dirname(path.fromFileUrl(import.meta.url)), INPUT_FILE);
+const lines = await getLinesDeprecated(path.dirname(path.fromFileUrl(import.meta.url)), INPUT_FILE);
 
 const map: string[][] = [];
 

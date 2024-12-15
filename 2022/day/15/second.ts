@@ -1,6 +1,6 @@
 // adapted from https://www.reddit.com/r/adventofcode/comments/zmcn64/comment/j0b90nr/?utm_source=reddit&utm_medium=web2x&context=3
 import * as path from "https://deno.land/std/path/mod.ts";
-import getLines from "../../../helpers/getLines.ts";
+import getLinesDeprecated from "../../../helpers/getLinesDeprecated.ts";
 
 const INPUT_REGEX = /Sensor at x=(-?\d+)\, y=(-?\d+): closest beacon is at x=(-?\d+), y=(-?\d+)/;
 
@@ -15,7 +15,7 @@ interface Reading {
   radius: number,
 }
 
-const lines = await getLines(path.dirname(path.fromFileUrl(import.meta.url)), "./input.txt");
+const lines = await getLinesDeprecated(path.dirname(path.fromFileUrl(import.meta.url)), "./input.txt");
 
 const calculateDistance = ({x: x1, y: y1}: Point, {x: x2, y: y2}: Point) => {
   return Math.abs(x1 - x2) + Math.abs(y1 - y2);
