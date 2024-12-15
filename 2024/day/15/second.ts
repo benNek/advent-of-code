@@ -1,5 +1,6 @@
 import getLines from "../../../helpers/readFile.ts";
 import {DIRECTION_TO_MOVEMENT, printMap} from "../../../helpers/maps.ts";
+import {isVisualMode} from "../../../helpers/execution.ts";
 
 const WALL_SYMBOL = "#";
 const BOX_SYMBOL = "O";
@@ -49,13 +50,13 @@ for (const line of lines) {
 for (const direction of instructions) {
     const movement = DIRECTION_TO_MOVEMENT[direction];
 
-    // console.log(robotX, robotY, movement, direction);
     [robotX, robotY] = move(robotX, robotY, movement)
 
-    // uncomment for step-by-step movement
-    // printMap(map);
-    // prompt("Press enter to continue");
-    // console.log('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
+    if (isVisualMode()) {
+        console.clear();
+        printMap(map);
+        prompt("Press enter to continue");
+    }
 }
 printMap(map);
 
