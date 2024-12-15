@@ -109,7 +109,6 @@ async function printMapToFile(second: number, robots: Robot[]) {
         png.data[position + 3] = 255;
     }
 
-    PNG.s
     // save this buffer into a some kind of image file for macos
     await Bun.write(`2024/day/14/trees/${second}.png`, PNG.sync.write(png));
 
