@@ -16,7 +16,6 @@ program
 
 program.parse();
 
-console.log(program.opts());
 const {year, day, part, visualize} = program.opts();
 
 let partFile = part == 1 ? "first" : "second";
@@ -28,7 +27,7 @@ process.env.VISUAL_MODE = visualize;
 
 // execute
 const start = performance.now();
-console.log(`[INFO] Visual mode: ${visualize}`);
+console.log(`[INFO] Options: --visualize={${visualize}}`);
 console.log(`[INFO] Executing ${dir}/${partFile}`);
 await import(`${dir}/${partFile}`);
 const end = performance.now();

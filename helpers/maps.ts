@@ -1,4 +1,5 @@
 import colors from "colors";
+import {Direction} from "./types.ts";
 
 export function getHashKey(row: number, col: number) {
     return `${row}-${col}`;
@@ -9,6 +10,13 @@ export const TWO_DIMENSIONAL_MOVEMENTS: number[][] = [
     [0, 1],
     [-1, 0],
     [1, 0]
+]
+
+export const TWO_DIMENSIONAL_MOVEMENTS_DIRECTED: [number, number, Direction][] = [
+    [0, -1, Direction.UP],
+    [0, 1, Direction.DOWN],
+    [-1, 0, Direction.LEFT],
+    [1, 0, Direction.RIGHT]
 ]
 
 export const DIRECTION_TO_MOVEMENT: Record<string, number[]> = {
