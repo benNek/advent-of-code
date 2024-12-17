@@ -90,9 +90,12 @@ function findSeatCount(start: Point, end: Point): number {
 
             if (x === end.x && y === end.y) {
                 if (distances[neighborKey] < minDistance) {
+                    console.log(node.path);
                     minDistance = distances[neighborKey];
                     uniquePoints = new Set(...node.path, key);
                 } else if (distances[neighborKey] === minDistance) {
+                    console.log("antra path");
+                    console.log(node.path);
                     node.path.forEach(point => uniquePoints.add(point));
                     uniquePoints.add(key);
                 }
