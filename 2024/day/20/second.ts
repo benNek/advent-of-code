@@ -56,22 +56,22 @@ type Node = {
 function bfs(start: Node): Node | undefined {
     const visited = new Set();
     const queue: Node[] = [start];
+    distances.set(getHashKey(start.point.x, start.point.y), 0);
 
     while (queue.length > 0) {
         const node = queue.shift()!;
         const { point, distance } = node;
 
-        const key = getHashKey(point.x, point.y);
-        if (visited.has(key)) {
-            continue;
-        }
-        visited.add(key);
-
         for (const [x, y] of TWO_DIMENSIONAL_MOVEMENTS) {
             const newX = point.x + x;
             const newY = point.y + y;
-            const newKey = getHashKey(newX, newY);
+            const key = getHashKey(newX, newY);
             const value = map[newY][newX];
+
+            if (visited.has(key)) {
+                continue;
+            }
+            visited.add(key);
 
             const newNode: Node = {
                 point: {x: newX, y: newY},
