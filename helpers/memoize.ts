@@ -6,7 +6,6 @@ export function memoize<Args extends unknown[], Result>(
     // args can be objects or arrays
     const key = JSON.stringify(args);
     if (memoMap.has(key)) {
-      console.log('cache hit for ', key);
       return memoMap.get(key)!;
     }
 
