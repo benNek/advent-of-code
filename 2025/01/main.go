@@ -17,7 +17,11 @@ func main() {
 	flag.Parse()
 	fmt.Println("Running part", part)
 
-	part1(input)
+	if part == 1 {
+		part1(input)
+	} else {
+		part2(input)
+	}
 }
 
 func part1(input string) int {
