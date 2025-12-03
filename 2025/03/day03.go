@@ -1,38 +1,21 @@
-package main
+package day03
 
 import (
-	_ "embed"
-	"flag"
-	"fmt"
 	"math"
 	"strconv"
 	"strings"
 )
 
-//go:embed input.txt
-var input string
+type Solver struct{}
 
-func main() {
-	var part int
-	flag.IntVar(&part, "part", 1, "part 1 or 2")
-	flag.Parse()
-	fmt.Println("Running part", part)
-
-	if part == 1 {
-		part1(input)
-	} else {
-		part2(input)
-	}
-}
-
-func part1(input string) int {
+func (Solver) Part1(input string) (int, error) {
 	ans := 0
 	// greedy, find first max number and then we will have a huge choice of numbers on right side
 	lines := strings.Split(input, "\n")
 	for _, line := range lines {
 		leftMax := 0
 		leftIndex := 0
-		for i := 0; i < len(line); i++ {
+		for i := 0; i < len(line)-1; i++ {
 			value, _ := strconv.Atoi(string(line[i]))
 			if value > leftMax {
 				leftMax = value
@@ -50,23 +33,21 @@ func part1(input string) int {
 		ans += leftMax*10 + rightMax
 	}
 
-	return ans
+	return ans, nil
 }
 
-func part2(input string) int64 {
+func (Solver) Part2(input string) (int64, error) {
 	ans := int64(0)
 	lines := strings.Split(input, "\n")
 	for _, line := range lines {
-		//fmt.Println(line)
 		ans += traverse(line, 12, 0, 0)
 	}
 
-	return ans
+	return ans, nil
 }
 
 func traverse(bank string, remaining int, startPoint int, currJol int) int64 {
 	if remaining == 0 {
-		//fmt.Println("result", currJol)
 		return int64(currJol)
 	}
 
