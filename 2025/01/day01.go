@@ -1,30 +1,13 @@
-package main
+package day01
 
 import (
-	_ "embed"
-	"flag"
-	"fmt"
 	"strconv"
 	"strings"
 )
 
-//go:embed input.txt
-var input string
+type Solver struct{}
 
-func main() {
-	var part int
-	flag.IntVar(&part, "part", 1, "part 1 or 2")
-	flag.Parse()
-	fmt.Println("Running part", part)
-
-	if part == 1 {
-		part1(input)
-	} else {
-		part2(input)
-	}
-}
-
-func part1(input string) int {
+func (Solver) Part1(input string) (int, error) {
 	zeroes := 0
 	position := 50
 	for _, line := range parseInput(input) {
@@ -45,10 +28,10 @@ func part1(input string) int {
 			zeroes++
 		}
 	}
-	return zeroes
+	return zeroes, nil
 }
 
-func part2(input string) int {
+func (Solver) Part2(input string) (int, error) {
 	ans := 0
 	position := 50
 	// whooop learning how to put stuff in map in golang now
@@ -66,7 +49,7 @@ func part2(input string) int {
 			}
 		}
 	}
-	return ans
+	return ans, nil
 }
 
 func parseInput(input string) []string {

@@ -1,30 +1,14 @@
-package main
+package day02
 
 import (
-	_ "embed"
-	"flag"
 	"fmt"
 	"strconv"
 	"strings"
 )
 
-//go:embed input.txt
-var input string
+type Solver struct{}
 
-func main() {
-	var part int
-	flag.IntVar(&part, "part", 1, "part 1 or 2")
-	flag.Parse()
-	fmt.Println("Running part", part)
-
-	if part == 1 {
-		part1(input)
-	} else {
-		part2(input)
-	}
-}
-
-func part1(input string) int {
+func (Solver) Part1(input string) (int, error) {
 	ans := 0
 	combos := strings.Split(input, ",")
 	for _, combo := range combos {
@@ -39,10 +23,10 @@ func part1(input string) int {
 			}
 		}
 	}
-	return ans
+	return ans, nil
 }
 
-func part2(input string) int {
+func (Solver) Part2(input string) (int, error) {
 	ans := 0
 	combos := strings.Split(input, ",")
 	for _, combo := range combos {
@@ -57,7 +41,7 @@ func part2(input string) int {
 			}
 		}
 	}
-	return ans
+	return ans, nil
 }
 
 func isInvalidId(id string) bool {

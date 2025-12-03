@@ -12,7 +12,7 @@ type Solver[T any] interface {
 	Part2(input string) (T, error)
 }
 
-func MustRunPart[T any](t *testing.T, part func(string) (T, error), input string) T {
+func MustRunPartWithExample[T any](t *testing.T, part func(string) (T, error), input string) T {
 	t.Helper()
 	res, err := part(input)
 	if err != nil {
@@ -21,10 +21,10 @@ func MustRunPart[T any](t *testing.T, part func(string) (T, error), input string
 	return res
 }
 
-func MustRunPartWithFile[T any](t *testing.T, part func(string) (T, error)) T {
+func MustRunPart[T any](t *testing.T, part func(string) (T, error)) T {
 	t.Helper()
 	input := MustLoadInput(t, "input.txt")
-	return MustRunPart(t, part, input)
+	return MustRunPartWithExample(t, part, input)
 }
 
 func MustLoadInput(t *testing.T, name string) string {
@@ -41,4 +41,11 @@ func MustLoadInput(t *testing.T, name string) string {
 		t.Fatalf("cannot read %s: %v", path, err)
 	}
 	return string(data)
+}
+
+func ValidateTest[T comparable](t *testing.T, got T, want T) {
+	t.Helper()
+	if got != want {
+		t.Fatalf("want %v, got %v", want, got)
+	}
 }
