@@ -4,6 +4,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"strings"
 	"testing"
 )
 
@@ -48,4 +49,14 @@ func ValidateTest[T comparable](t *testing.T, got T, want T) {
 	if got != want {
 		t.Fatalf("want %v, got %v", want, got)
 	}
+}
+
+func ParseGrid(input string) [][]byte {
+	lines := strings.Split(strings.TrimSpace(input), "\n")
+	grid := make([][]byte, len(lines))
+	for i, line := range lines {
+		grid[i] = []byte(line)
+	}
+
+	return grid
 }
