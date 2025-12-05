@@ -1,6 +1,7 @@
 package aoc
 
 import (
+	"cmp"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -59,4 +60,12 @@ func ParseGrid(input string) [][]byte {
 	}
 
 	return grid
+}
+
+func Max[T cmp.Ordered](a, b T) T {
+	// because ofc golang only has max() for floats xD
+	if a > b {
+		return a
+	}
+	return b
 }
