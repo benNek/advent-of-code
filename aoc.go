@@ -69,3 +69,12 @@ func Max[T cmp.Ordered](a, b T) T {
 	}
 	return b
 }
+
+func Pow(a int, n int) int {
+	result := 1
+	for i := 0; i < n; i++ {
+		result *= a
+	}
+
+	return result
+}
