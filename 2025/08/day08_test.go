@@ -35,7 +35,7 @@ func TestPart1_Example(t *testing.T) {
 
 func TestPart1_Input(t *testing.T) {
 	got := aoc.MustRunPart(t, s.Part1)
-	aoc.ValidateTest(t, got, 60)
+	aoc.ValidateTest(t, got, 84968)
 }
 
 func TestPart2_Example(t *testing.T) {
@@ -45,5 +45,5 @@ func TestPart2_Example(t *testing.T) {
 
 func TestPart2_Input(t *testing.T) {
 	got := aoc.MustRunPart(t, s.Part2)
-	aoc.ValidateTest(t, got, 27)
+	aoc.ValidateTest(t, got, 8663467782)
 }

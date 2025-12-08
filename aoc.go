@@ -2,11 +2,13 @@ package aoc
 
 import (
 	"cmp"
+	"fmt"
 	"os"
 	"path/filepath"
 	"runtime"
 	"strings"
 	"testing"
+	"time"
 )
 
 type Solver[T any] interface {
@@ -16,7 +18,9 @@ type Solver[T any] interface {
 
 func MustRunPartWithExample[T any](t *testing.T, part func(string) (T, error), input string) T {
 	t.Helper()
+	t0 := time.Now()
 	res, err := part(input)
+	fmt.Println("--- AOC --- Execution took", time.Since(t0))
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -25,7 +29,9 @@ func MustRunPartWithExample[T any](t *testing.T, part func(string) (T, error), i
 
 func MustRunPart[T any](t *testing.T, part func(string) (T, error)) T {
 	t.Helper()
+	t0 := time.Now()
 	input := MustLoadInput(t, "input.txt")
+	fmt.Println("--- AOC --- Input parse time", time.Since(t0))
 	return MustRunPartWithExample(t, part, input)
 }
 

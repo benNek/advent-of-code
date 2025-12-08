@@ -4,7 +4,6 @@ import (
 	"aoc"
 	"fmt"
 	"maps"
-	"math"
 	"slices"
 	"sort"
 	"strconv"
@@ -116,8 +115,8 @@ func generatePairs(boxes []Box) []Pair {
 	return pairs
 }
 
-func euclideanDistance(a, b Box) float64 {
-	return math.Sqrt(float64(aoc.Pow(a.x-b.x, 2) + aoc.Pow(a.y-b.y, 2) + aoc.Pow(a.z-b.z, 2)))
+func euclideanDistance(a, b Box) int {
+	return aoc.Pow(a.x-b.x, 2) + aoc.Pow(a.y-b.y, 2) + aoc.Pow(a.z-b.z, 2)
 }
 
 func find(rep map[Box]Box, box Box) Box {
