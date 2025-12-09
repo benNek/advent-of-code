@@ -68,9 +68,22 @@ func ParseGrid(input string) [][]byte {
 	return grid
 }
 
+func PrintGrid(grid [][]byte) {
+	for _, line := range grid {
+		fmt.Println(string(line))
+	}
+}
+
 func Max[T cmp.Ordered](a, b T) T {
 	// because ofc golang only has max() for floats xD
 	if a > b {
+		return a
+	}
+	return b
+}
+
+func Min[T cmp.Ordered](a, b T) T {
+	if a < b {
 		return a
 	}
 	return b
